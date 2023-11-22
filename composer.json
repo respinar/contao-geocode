@@ -1,8 +1,8 @@
 {
-    "name": "delahaye/dlh_geocode",
+    "name": "respinar/contao-geocode",
     "description":"Get geo coordinates from a given address",
     "keywords":["contao", "geo", "googlemaps"],
-    "type": "contao-module",
+    "type": "contao-bundle",
     "homepage":"https://github.com/delahaye/dlh_geocode",
     "license":"LGPL-3.0-or-later",
     "authors":[
@@ -17,21 +17,27 @@
         "issues":"https://github.com/delahaye/dlh_geocode/issues"
     },
     "require": {
-        "php": ">=5.3",
-        "contao/core-bundle": "^3.5 || ~4.2",
-        "contao-community-alliance/composer-plugin": "~2.4 || ~3.0"
+        "php": "^8.0",
+        "contao/core-bundle": "^4.13"
+    },
+    "require-dev": {
+        "contao/manager-plugin": "^2.12"
+    },
+    "conflict": {
+        "contao/manager-plugin": "<2.0 || >=3.0"
     },
     "autoload": {
-        "classmap": [""]
+        "psr-4": {
+            "Respinar\\ContaoGeocodeBundle\\": "src/"
+        }
     },
-    "replace": {
-        "contao-legacy/dlh_geocode": "*"
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "contao/manager-plugin": true
+        }
     },
     "extra": {
-        "contao": {
-            "sources": {
-                "": "system/modules/dlh_geocode"
-            }
-        }
+        "contao-manager-plugin": "Respinar\\ContaoGeocodeBundle\\ContaoManager\\Plugin"
     }
 }
