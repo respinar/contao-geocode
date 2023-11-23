@@ -17,8 +17,11 @@
  * Run in a custom namespace, so the class can be replaced
  */
 
-namespace delahaye;
+namespace Respinar\ContaoGeocodeBundle;
 
+use Contao\Config;
+use Contao\Input;
+use Contao\Message;
 
 /**
  * Class GeoCode
@@ -63,7 +66,7 @@ class GeoCode
     {
         if ($key === null)
         {
-            $key = \Config::get('dlh_googlemaps_apikey');
+            $key = Config::get('dlh_googlemaps_apikey');
         }
 
         if ($strAddress)
@@ -223,7 +226,7 @@ class GeoCode
 
         if (in_array($strStatus, $arrErrorMessages))
         {
-            \Message::addError($strStatus . ($strMessage ? " (" . $strMessage . ")" : ''));
+            Message::addError($strStatus . ($strMessage ? " (" . $strMessage . ")" : ''));
         }
     }
 
@@ -245,25 +248,25 @@ class GeoCode
         {
             if ($strIdParam)
             {
-                if (!\Input::$strAction($strIdParam))
+                if (!Input::$strAction($strIdParam))
                 {
                     // how Metamodels do it on creation, otherwise save twice to get coords
-                    $arrAddress[] = \Input::get('act') == 'create' ? \Input::post(sprintf($strField, 'b')) : '';
+                    $arrAddress[] = Input::get('act') == 'create' ? Input::post(sprintf($strField, 'b')) : '';
                 }
                 else
                 {
-                    $arrAddress[] = \Input::post(sprintf($strField, \Input::$strAction($strIdParam)));
+                    $arrAddress[] = Input::post(sprintf($strField, Input::$strAction($strIdParam)));
                 }
             }
             else
             {
-                $arrAddress[] = \Input::post($strField);
+                $arrAddress[] = Input::post($strField);
             }
         }
 
         if (!trim(implode('', $arrAddress)))
         {
-            $geocode = \Input::post(sprintf($GLOBALS['dlh_geocode']['address']['field_geocode'], \Input::$strAction($strIdParam)));
+            $geocode = Input::post(sprintf($GLOBALS['dlh_geocode']['address']['field_geocode'], Input::$strAction($strIdParam)));
 
             return $geocode;
         }
